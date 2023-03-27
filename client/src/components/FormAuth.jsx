@@ -1,10 +1,8 @@
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { NavLink } from 'react-router-dom';
+import { Button, TextField, Box, Typography } from '@mui/material';
+
 import useInput from '../hooks/useInput';
-import { Alert } from '@mui/material';
-import { STATUS } from '../constants';
+import Alert from '../containers/AlertContainer';
 
 const FormAuth = ({ signIn, status, errorMessage }) => {
   const login = useInput();
@@ -18,9 +16,7 @@ const FormAuth = ({ signIn, status, errorMessage }) => {
       <Typography component="h1" variant="h5">
         Авторизация
       </Typography>
-      {status === STATUS.error && (
-        <Alert severity="error">{errorMessage}</Alert>
-      )}
+      <Alert text={errorMessage} status={status} />
       <TextField
         margin="normal"
         required
@@ -51,7 +47,7 @@ const FormAuth = ({ signIn, status, errorMessage }) => {
         sx={{ mt: 3, mb: 2 }}
         onClick={clickHandler}
       >
-        Войти
+        <NavLink to="/">Войти</NavLink>
       </Button>
     </Box>
   );

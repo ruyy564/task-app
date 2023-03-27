@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button, Pagination, Tabs, Tab } from '@mui/material';
 
 import MyContainer from '../components/Container';
 import Task from '../components/Task';
-import useModals from '../hooks/useModals';
+import useTaskPage from '../hooks/useTaskPage';
 import FormTaskContainer from '../containers/FormTaskContainer';
-
-const sort = ['name', 'email', 'text', 'isComplited', 'isUpdated'];
 
 function TaskPage({
   tasks,
@@ -17,48 +15,31 @@ function TaskPage({
   resetStatus,
   auth,
 }) {
-  const { open, handleClose, handleOpen } = useModals();
-  const [page, setPage] = useState(1);
-  const [sortedBy, setSortedBy] = useState(0);
-  const [increasing, setIncreasing] = useState(true);
-  const [selectTask, setSelectTask] = useState(null);
   const limit = 3;
+  const {
+    open,
+    sortedBy,
+    selectTask,
+    changePage,
+    changeSortedBy,
+    changeDirectionSort,
+    changeTask,
+    openModal,
+    closeModal,
+  } = useTaskPage(fetchTasks, resetStatus, count, limit);
 
-  useEffect(() => {
-    fetchTasks(page, limit, sort[sortedBy], increasing ? 'ASC' : 'DESC');
-  }, [increasing, fetchTasks, page, sortedBy, count]);
-
-  const clickOnPageHandler = (_, page) => {
-    setPage(page);
-  };
-  const clickSortHandler = (_, index) => {
-    setSortedBy(index);
-  };
-  const clickHandler = () => {
-    setIncreasing((prev) => !prev);
-  };
-  const changeTask = (task) => {
-    setSelectTask(task);
-    handleOpen();
-  };
-
-  const close = () => {
-    handleClose();
-    setSelectTask(null);
-    resetStatus();
-  };
   return (
     <MyContainer>
-      <Button variant="outlined" onClick={handleOpen}>
+      <Button variant="outlined" onClick={openModal}>
         Добавить
       </Button>
       {count > 0 && (
         <Tabs
           value={sortedBy}
-          onChange={clickSortHandler}
-          onClick={clickHandler}
+          onChange={changeSortedBy}
+          onClick={changeDirectionSort}
         >
-          <Tab label="имя" />
+          <Tab label="имя пользователя" />
           <Tab label="email" />
           <Tab label="текст" />
           <Tab label="завершена" />
@@ -72,7 +53,7 @@ function TaskPage({
           task={task}
           handleOpen={changeTask}
           updateTask={updateTask}
-          deleteContact={() => deleteTask(task.uuid)}
+          deleteTask={deleteTask}
         />
       ))}
       {count / limit >= 1 && (
@@ -81,12 +62,12 @@ function TaskPage({
           color="primary"
           showFirstButton
           showLastButton
-          onChange={clickOnPageHandler}
+          onChange={changePage}
         />
       )}
       <FormTaskContainer
         open={open}
-        handleClose={close}
+        handleClose={closeModal}
         initState={selectTask}
       />
     </MyContainer>

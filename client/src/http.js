@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-import { store } from './store';
 import { logout } from './services/user';
 
 const UNAUTH_ERROR = 401;

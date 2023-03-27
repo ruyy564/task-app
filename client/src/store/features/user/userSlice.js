@@ -15,7 +15,12 @@ const initialState = {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    resetStatus(state) {
+      state.status = null;
+      state.errorMessage = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signIn.fulfilled, (state, { payload }) => {
@@ -33,10 +38,13 @@ export const userSlice = createSlice({
         state.errorMessage = payload;
       })
       .addCase(logout.fulfilled, (state) => {
+        state.status = null;
+        state.errorMessage = null;
         state.user = null;
         state.auth = false;
       });
   },
 });
 
+export const { resetStatus } = userSlice.actions;
 export default userSlice.reducer;

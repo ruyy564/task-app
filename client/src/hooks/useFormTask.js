@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import useInput from '../hooks/useInput';
 
 const useFormTask = (handleClose, initState, addTask, updateTask) => {
@@ -25,7 +26,7 @@ const useFormTask = (handleClose, initState, addTask, updateTask) => {
     text.clear();
   };
 
-  const saveContact = () => {
+  const saveTask = () => {
     if (editId) {
       updateTask(editId, email.value, name.value, text.value);
     } else {
@@ -38,7 +39,7 @@ const useFormTask = (handleClose, initState, addTask, updateTask) => {
     name,
     email,
     text,
-    saveContact,
+    saveTask,
   };
 };
 

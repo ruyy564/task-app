@@ -1,17 +1,25 @@
-import { Typography, ButtonGroup, Button } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Checkbox from '@mui/material/Checkbox';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import { useState } from 'react';
+import {
+  ButtonGroup,
+  Checkbox,
+  Card,
+  CardActions,
+  CardContent,
+} from '@mui/material';
 
-const Task = ({ task, handleOpen, deleteContact, updateTask, auth }) => {
-  const [isComplited, setComplited] = useState(task.isComplited);
+import Text from './Text';
+import { ButtonEdit, ButtonDelete } from './Button';
+
+const Task = ({ task, handleOpen, deleteTask, updateTask, auth }) => {
   const changeHandler = () => {
-    setComplited((prev) => !prev);
     updateTask(task.uuid, task.email, task.name, task.text, !task.isComplited);
+  };
+
+  const deleteHandler = () => {
+    deleteTask(task.uuid);
+  };
+
+  const openModal = () => {
+    handleOpen(task);
   };
 
   return (
@@ -19,44 +27,22 @@ const Task = ({ task, handleOpen, deleteContact, updateTask, auth }) => {
       <CardContent>
         <Checkbox
           edge="start"
-          checked={isComplited}
+          checked={task.isComplited}
           onChange={changeHandler}
           disabled={!auth}
         />
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {task.name} - email:{task.email}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ width: '100%', wordWrap: 'break-word' }}
-        >
-          Text:{task.text}
-        </Typography>
+        <Text text={`Имя пользователя:${task.name}`} />
+        <Text text={`Email:${task.email}`} />
+        <Text text={`Текст:${task.text || 'Отсутствует'}`} />
+        {task.isComplited && <Text text={`Задача выполнена`} />}
+        {task.isUpdated && <Text text={`Задача отредактирована`} />}
         {auth && (
           <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <ButtonGroup>
-              <Button
-                title={'Edit'}
-                onClick={() => handleOpen(task)}
-                size="small"
-              >
-                <EditIcon />
-              </Button>
-              <Button
-                title={'Delete'}
-                color="error"
-                size="small"
-                onClick={deleteContact}
-              >
-                <DeleteIcon />
-              </Button>
+              <ButtonEdit onClick={openModal} />
+              <ButtonDelete onClick={deleteHandler} />
             </ButtonGroup>
           </CardActions>
-        )}
-        {task.isUpdated && (
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Задача отредактирована
-          </Typography>
         )}
       </CardContent>
     </Card>

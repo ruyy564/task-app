@@ -15,7 +15,7 @@ const initialState = {
   errorMessage: null,
 };
 
-export const modalSlice = createSlice({
+export const taskSlice = createSlice({
   name: 'task',
   initialState,
   reducers: {
@@ -27,7 +27,7 @@ export const modalSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchTasks.fulfilled, (state, { payload }) => {
-        state.status = null;
+        state.status = STATUS.success;
         state.errorMessage = null;
         state.tasks = payload.rows;
         state.count = payload.count;
@@ -43,7 +43,6 @@ export const modalSlice = createSlice({
       .addCase(addTask.fulfilled, (state, { payload }) => {
         state.status = STATUS.success;
         state.errorMessage = null;
-        state.tasks.push(payload);
         state.count += 1;
       })
       .addCase(addTask.pending, (state) => {
@@ -60,7 +59,7 @@ export const modalSlice = createSlice({
         const task = state.tasks.find((el) => el.uuid === payload.uuid);
         task.email = payload.email;
         task.text = payload.text;
-        task.isCompleted = payload.isCompleted;
+        task.isComplited = payload.isComplited;
         task.isUpdated = payload.isUpdated;
         task.name = payload.name;
       })
@@ -75,7 +74,6 @@ export const modalSlice = createSlice({
       .addCase(deleteTask.fulfilled, (state, { payload }) => {
         state.status = null;
         state.errorMessage = null;
-        state.tasks = state.tasks.filter((el) => el.uuid !== payload);
         state.count -= 1;
       })
       .addCase(deleteTask.pending, (state) => {
@@ -89,5 +87,5 @@ export const modalSlice = createSlice({
   },
 });
 
-export const { resetStatus } = modalSlice.actions;
-export default modalSlice.reducer;
+export const { resetStatus } = taskSlice.actions;
+export default taskSlice.reducer;

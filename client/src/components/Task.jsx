@@ -25,17 +25,20 @@ const Task = ({ task, handleOpen, deleteTask, updateTask, auth }) => {
   return (
     <Card sx={{ width: '50%' }} gap={5}>
       <CardContent>
-        <Checkbox
-          edge="start"
-          checked={task.isComplited}
-          onChange={changeHandler}
-          disabled={!auth}
-        />
+        {auth && (
+          <Checkbox
+            edge="start"
+            checked={task.isComplited}
+            onChange={changeHandler}
+          />
+        )}
         <Text text={`Имя пользователя:${task.name}`} />
         <Text text={`Email:${task.email}`} />
-        <Text text={`Текст:${task.text || 'Отсутствует'}`} />
-        {task.isComplited && <Text text={`Задача выполнена`} />}
-        {task.isUpdated && <Text text={`Задача отредактирована`} />}
+        <Text text={`Текст: ${task.text || 'Отсутствует'}`} />
+        <Text text={`Cтатус:`} />
+        {!task.isComplited && !task.isUpdated && <Text text={' В работе'} />}
+        {task.isComplited && <Text text={`Выполнена`} />}
+        {task.isUpdated && <Text text={`Отредактирована`} />}
         {auth && (
           <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <ButtonGroup>

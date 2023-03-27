@@ -1,15 +1,10 @@
-import { NavLink } from 'react-router-dom';
 import { Button, TextField, Box, Typography } from '@mui/material';
 
-import useInput from '../hooks/useInput';
+import useFormAuth from '../hooks/useFormAuth';
 import Alert from '../containers/AlertContainer';
 
-const FormAuth = ({ signIn, status, errorMessage }) => {
-  const login = useInput();
-  const password = useInput();
-  const clickHandler = () => {
-    signIn(login.value, password.value);
-  };
+const FormAuth = ({ signIn, status, errorMessage, errors }) => {
+  const { login, password, clickHandler } = useFormAuth(signIn);
 
   return (
     <Box component="form" noValidate sx={{ mt: 1 }}>
@@ -26,6 +21,8 @@ const FormAuth = ({ signIn, status, errorMessage }) => {
         name="login"
         autoComplete="login"
         autoFocus
+        error={Boolean(errors && errors['login'])}
+        helperText={errors && errors['login']}
         value={login.value}
         onChange={login.changeHandler}
       />
@@ -36,6 +33,8 @@ const FormAuth = ({ signIn, status, errorMessage }) => {
         name="password"
         label="Password"
         type="password"
+        error={Boolean(errors && errors['password'])}
+        helperText={errors && errors['password']}
         id="password"
         autoComplete="current-password"
         value={password.value}
@@ -47,7 +46,7 @@ const FormAuth = ({ signIn, status, errorMessage }) => {
         sx={{ mt: 3, mb: 2 }}
         onClick={clickHandler}
       >
-        <NavLink to="/">Войти</NavLink>
+        Войти
       </Button>
     </Box>
   );

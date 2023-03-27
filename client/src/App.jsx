@@ -1,12 +1,8 @@
 import React from 'react';
-import { RouterProvider } from 'react-router-dom';
+import Router from './containers/RouterContainer';
 
-import { publicRouter, privateRouter } from './routes';
-
-function App({ auth }) {
-  const router = auth ? privateRouter : publicRouter;
-
-  return <RouterProvider router={router} />;
+function App() {
+  return <Router />;
 }
 
 export default App;

@@ -16,7 +16,7 @@ export const fetchTasks = createAsyncThunk(
 
       return data;
     } catch (e) {
-      return thunkAPI.rejectWithValue(e.response?.data.message);
+      return thunkAPI.rejectWithValue(e.response?.data);
     }
   }
 );
@@ -33,7 +33,7 @@ export const addTask = createAsyncThunk(
 
       return data;
     } catch (e) {
-      return thunkAPI.rejectWithValue(e.response?.data.message);
+      return thunkAPI.rejectWithValue(e.response?.data);
     }
   }
 );
@@ -52,7 +52,7 @@ export const updateTask = createAsyncThunk(
 
       return data;
     } catch (e) {
-      return thunkAPI.rejectWithValue(e.response?.data.message);
+      return thunkAPI.rejectWithValue(e.response?.data);
     }
   }
 );
@@ -65,7 +65,7 @@ export const deleteTask = createAsyncThunk(
 
       return uuid;
     } catch (e) {
-      return thunkAPI.rejectWithValue(e.response?.data.message);
+      return thunkAPI.rejectWithValue(e.response?.data);
     }
   }
 );

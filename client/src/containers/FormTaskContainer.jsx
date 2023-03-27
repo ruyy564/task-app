@@ -2,10 +2,16 @@ import { connect } from 'react-redux';
 
 import FormTask from '../components/FormTask';
 import { addTask, updateTask } from '../services/task';
+import {
+  selectTaskErrorMessage,
+  selectTaskErrors,
+  selectTaskStatus,
+} from '../store/features/task/selectors';
 
 const mapState = (state) => ({
-  status: state.task.status,
-  errorMessage: state.task.errorMessage,
+  status: selectTaskStatus(state),
+  errorMessage: selectTaskErrorMessage(state),
+  errors: selectTaskErrors(state),
 });
 
 const mapDispatch = {

@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import TaskPage from '../pages/TaskPage';
 import { fetchTasks, deleteTask, updateTask } from '../services/task';
 import { resetStatus } from '../store/features/task/taskSlice';
+import { selectTasks, selectTaskCount } from '../store/features/task/selectors';
+import { selectUserAuth } from '../store/features/user/selectors';
 
 const mapState = (state) => ({
-  tasks: state.task.tasks,
-  count: state.task.count,
-  auth: state.user.auth,
+  tasks: selectTasks(state),
+  count: selectTaskCount(state),
+  auth: selectUserAuth(state),
 });
 
 const mapDispatch = {

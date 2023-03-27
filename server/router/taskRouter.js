@@ -9,7 +9,6 @@ router.get('/', TaskController.getTasks);
 router.post(
   '/',
   body('email').isEmail(),
-  body('email').not().isEmpty(),
   body('name').not().isEmpty(),
   TaskController.addTask
 );
@@ -18,7 +17,6 @@ router.put(
   '/:uuid',
   AuthMiddleware,
   body('email').isEmail(),
-  body('email').not().isEmpty(),
   body('name').not().isEmpty(),
   TaskController.updateTask
 );

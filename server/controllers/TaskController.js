@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const TaskService = require('../service/TaskService');
 const ApiError = require('../error/ApiError');
+const getErrorMessage = require('../helpers/getErrorMessage');
 
 class TaskController {
   async getTasks(req, res, next) {
@@ -24,7 +25,9 @@ class TaskController {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        return next(ApiError.unValidateDataError(errors.errors));
+        return next(
+          ApiError.unValidateDataError(getErrorMessage(errors.errors))
+        );
       }
       const { name, email, text } = req.body;
       const taskData = await TaskService.addTask(name, email, text);
@@ -40,7 +43,9 @@ class TaskController {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        return next(ApiError.unValidateDataError(errors.errors));
+        return next(
+          ApiError.unValidateDataError(getErrorMessage(errors.errors))
+        );
       }
       const { uuid } = req.params;
       const { ...task } = req.body;

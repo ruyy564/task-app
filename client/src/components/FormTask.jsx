@@ -2,7 +2,6 @@ import { Button, TextField, Typography, ButtonGroup } from '@mui/material';
 
 import useFormTask from '../hooks/useFormTask';
 import Modal from './Modal';
-import { STATUS } from '../constants';
 import Alert from '../containers/AlertContainer';
 
 const FormTask = ({
@@ -13,24 +12,21 @@ const FormTask = ({
   updateTask,
   status,
   errorMessage,
+  errors,
 }) => {
-  const { closeForm, name, email, text, saveTask } = useFormTask(
+  const { closeForm, name, email, text, textAlert, saveTask } = useFormTask(
     handleClose,
     initState,
     addTask,
-    updateTask
+    updateTask,
+    status,
+    errorMessage
   );
-  const textAlert =
-    status === STATUS.error
-      ? errorMessage
-      : initState?.uuid
-      ? 'Изменения сохранены'
-      : 'Задача добавлена';
 
   return (
     <Modal open={open} handleClose={closeForm}>
       <Typography id="modal-modal-title" variant="h6" component="h2">
-        Данные о задаче
+        Введите информацию о задаче
       </Typography>
       <Alert text={textAlert} status={status} />
       <TextField
@@ -39,6 +35,8 @@ const FormTask = ({
         fullWidth
         value={name.value}
         onChange={name.changeHandler}
+        error={Boolean(errors && errors['name'])}
+        helperText={errors && errors['name']}
         required
       />
       <TextField
@@ -47,6 +45,8 @@ const FormTask = ({
         fullWidth
         value={email.value}
         onChange={email.changeHandler}
+        error={Boolean(errors && errors['email'])}
+        helperText={errors && errors['email']}
         required
       />
       <TextField
@@ -55,6 +55,8 @@ const FormTask = ({
         fullWidth
         value={text.value}
         onChange={text.changeHandler}
+        error={Boolean(errors && errors['text'])}
+        helperText={errors && errors['text']}
       />
       <ButtonGroup>
         <Button variant="contained" fullWidth onClick={saveTask}>

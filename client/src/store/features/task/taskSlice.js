@@ -13,6 +13,7 @@ const initialState = {
   count: 0,
   status: null,
   errorMessage: null,
+  errors: null,
 };
 
 export const taskSlice = createSlice({
@@ -35,23 +36,27 @@ export const taskSlice = createSlice({
       .addCase(fetchTasks.pending, (state) => {
         state.status = STATUS.loading;
         state.errorMessage = null;
+        state.errors = null;
       })
       .addCase(fetchTasks.rejected, (state, { payload }) => {
         state.status = STATUS.error;
-        state.errorMessage = payload;
+        state.errorMessage = payload.message;
       })
       .addCase(addTask.fulfilled, (state, { payload }) => {
         state.status = STATUS.success;
         state.errorMessage = null;
         state.count += 1;
+        state.errors = null;
       })
       .addCase(addTask.pending, (state) => {
         state.status = STATUS.loading;
         state.errorMessage = null;
+        state.errors = null;
       })
       .addCase(addTask.rejected, (state, { payload }) => {
         state.status = STATUS.error;
-        state.errorMessage = payload;
+        state.errorMessage = payload.message;
+        state.errors = payload.errors;
       })
       .addCase(updateTask.fulfilled, (state, { payload }) => {
         state.status = STATUS.success;
@@ -66,10 +71,12 @@ export const taskSlice = createSlice({
       .addCase(updateTask.pending, (state) => {
         state.status = STATUS.loading;
         state.errorMessage = null;
+        state.errors = null;
       })
       .addCase(updateTask.rejected, (state, { payload }) => {
         state.status = STATUS.error;
-        state.errorMessage = payload;
+        state.errorMessage = payload.message;
+        state.errors = payload.errors;
       })
       .addCase(deleteTask.fulfilled, (state, { payload }) => {
         state.status = null;
@@ -79,6 +86,7 @@ export const taskSlice = createSlice({
       .addCase(deleteTask.pending, (state) => {
         state.status = STATUS.loading;
         state.errorMessage = null;
+        state.errors = null;
       })
       .addCase(deleteTask.rejected, (state, { payload }) => {
         state.status = STATUS.error;

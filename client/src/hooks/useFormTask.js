@@ -1,13 +1,29 @@
 import { useEffect, useState } from 'react';
 
 import useInput from '../hooks/useInput';
+import { STATUS } from '../constants';
 
-const useFormTask = (handleClose, initState, addTask, updateTask) => {
+const useFormTask = (
+  handleClose,
+  initState,
+  addTask,
+  updateTask,
+  status,
+  errorMessage
+) => {
   const [editId, setEditId] = useState(null);
   const email = useInput();
   const name = useInput();
   const text = useInput();
+  let textAlert = '';
 
+  if (status === STATUS.error) {
+    textAlert = errorMessage;
+  }
+
+  if (status === STATUS.success) {
+    textAlert = initState?.uuid ? 'Изменения сохранены' : 'Задача добавлена';
+  }
   useEffect(() => {
     if (initState) {
       setEditId(initState.uuid);
@@ -36,6 +52,7 @@ const useFormTask = (handleClose, initState, addTask, updateTask) => {
 
   return {
     closeForm,
+    textAlert,
     name,
     email,
     text,

@@ -10,6 +10,7 @@ const initialState = {
   auth: Boolean(user),
   status: null,
   errorMessage: null,
+  errors: null,
 };
 
 export const userSlice = createSlice({
@@ -24,24 +25,28 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(signIn.fulfilled, (state, { payload }) => {
-        state.status = null;
+        state.status = STATUS.success;
         state.errorMessage = null;
         state.user = payload;
         state.auth = true;
+        state.errors = null;
       })
       .addCase(signIn.pending, (state) => {
         state.status = STATUS.loading;
         state.errorMessage = null;
+        state.errors = null;
       })
       .addCase(signIn.rejected, (state, { payload }) => {
         state.status = STATUS.error;
-        state.errorMessage = payload;
+        state.errorMessage = payload.message;
+        state.errors = payload.errors;
       })
       .addCase(logout.fulfilled, (state) => {
         state.status = null;
         state.errorMessage = null;
         state.user = null;
         state.auth = false;
+        state.errors = null;
       });
   },
 });

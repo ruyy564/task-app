@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const UserService = require('../service/UserService');
 const ApiError = require('../error/ApiError');
+const getErrorMessage = require('../helpers/getErrorMessage');
 
 class UserController {
   async registration(req, res, next) {
@@ -8,7 +9,9 @@ class UserController {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        return next(ApiError.unValidateDataError(errors.errors));
+        return next(
+          ApiError.unValidateDataError(getErrorMessage(errors.errors))
+        );
       }
       const { login, password } = req.body;
       const userData = await UserService.registrarion(login, password);
@@ -24,7 +27,9 @@ class UserController {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        return next(ApiError.unValidateDataError(errors.errors));
+        return next(
+          ApiError.unValidateDataError(getErrorMessage(errors.errors))
+        );
       }
       const { login, password } = req.body;
       const userData = await UserService.login(login, password);

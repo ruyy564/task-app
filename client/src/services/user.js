@@ -15,7 +15,7 @@ export const signIn = createAsyncThunk(
 
       return data.user;
     } catch (e) {
-      return thunkAPI.rejectWithValue(e.response?.data.message);
+      return thunkAPI.rejectWithValue(e.response?.data);
     }
   }
 );

@@ -2,10 +2,16 @@ import { connect } from 'react-redux';
 
 import FormAuth from '../components/FormAuth';
 import { signIn, logout } from '../services/user';
+import {
+  selectUserStatus,
+  selectUserErrorMessage,
+  selectUserErrors,
+} from '../store/features/user/selectors';
 
 const mapState = (state) => ({
-  status: state.user.status,
-  errorMessage: state.user.errorMessage,
+  status: selectUserStatus(state),
+  errorMessage: selectUserErrorMessage(state),
+  errors: selectUserErrors(state),
 });
 
 const mapDispatch = {

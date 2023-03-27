@@ -36,7 +36,7 @@ const Task = ({ task, handleOpen, deleteTask, updateTask, auth }) => {
         <Text text={`Email:${task.email}`} />
         <Text text={`Текст: ${task.text || 'Отсутствует'}`} />
         <Text text={`Cтатус:`} />
-        {!task.isComplited && !task.isUpdated && <Text text={' В работе'} />}
+        {!task.isComplited && <Text text={' В работе'} />}
         {task.isComplited && <Text text={`Выполнена`} />}
         {task.isUpdated && <Text text={`Отредактирована`} />}
         {auth && (
